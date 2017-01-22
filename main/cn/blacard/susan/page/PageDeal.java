@@ -1,4 +1,4 @@
-package cn.blacard.nymph.spider.page;
+package cn.blacard.susan.page;
 
 import java.io.IOException;
 import java.util.HashSet;

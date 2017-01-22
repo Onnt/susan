@@ -1,4 +1,4 @@
-package cn.blacard.nymph.spider.page;
+package cn.blacard.susan.page;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -127,7 +127,7 @@ public class Page extends PageDeal{
 	private void setUrls(){
 		try {
 			urls.addAll(getHref(this));
-			urls.addAll(getSrc(this));
+//			urls.addAll(getSrc(this));
 //			for(String str : urls)
 //				System.out.println(str);
 		} catch (IOException e) {
