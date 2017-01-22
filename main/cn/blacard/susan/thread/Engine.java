@@ -27,7 +27,6 @@ public class Engine extends Thread{
 	public void cycle(){
 		String url = UrlsDao.getExtractUrl();
 		if(url!=null){
-			System.out.println("now extract url is:"+url);
 			try{
 				Page page = new Page(url);
 				Set<String> urls = page.getUrls();

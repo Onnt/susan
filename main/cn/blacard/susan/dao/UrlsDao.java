@@ -93,7 +93,7 @@ public class UrlsDao {
 		List<UrlsEntity> respList = query.query("select * from urls where analy is null limit 1", null,UrlsEntity.class);
 		if(respList != null && respList.size() == 1){
 			String url = respList.get(0).getUrl();
-			updateExtract(url);
+			updateAnaly(url);
 			return url;
 		}else{
 			return null;
