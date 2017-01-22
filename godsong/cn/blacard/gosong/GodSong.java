@@ -14,9 +14,12 @@ public class GodSong {
 	
 	public static void getResult(){
 		Page page = new Page(UrlsDao.getAnalyUrl());
-		String html = page.getHtml();
-		String deal =html.substring(html.indexOf("video: \""), html.indexOf("subVideoArray:[],"));
-		System.out.println(deal);
+		
+		if(page.getPageUrl().contains("/play/")){
+			String html = page.getHtml();
+			String deal =html.substring(html.indexOf("video: \""), html.indexOf("subVideoArray:[],"));
+			System.out.println(deal);
+		}
 		getResult();
 	}
 }

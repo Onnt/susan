@@ -54053,3 +54053,15 @@ cn.blacard.nymph.net.html.HtmlGet.getPage(HtmlGet.java:41)2017-01-22 18:21:24  I
 	at cn.blacard.susan.page.Page.<init>(Page.java:56)
 	at cn.blacard.susan.thread.Engine.cycle(Engine.java:32)
 	at cn.blacard.susan.thread.Engine.run(Engine.java:17)
+cn.blacard.nymph.net.html.HtmlGet.getPage(HtmlGet.java:39)2017-01-22 18:30:51  URLЭ�顢��ʽ����·������
+ java.net.MalformedURLException
+	at java.net.URL.<init>(URL.java:619)
+	at java.net.URL.<init>(URL.java:482)
+	at java.net.URL.<init>(URL.java:431)
+	at cn.blacard.nymph.net.html.HtmlGet.getPage(HtmlGet.java:32)
+	at cn.blacard.susan.page.Page.<init>(Page.java:56)
+	at cn.blacard.gosong.GodSong.getResult(GodSong.java:16)
+	at cn.blacard.gosong.GodSong.main(GodSong.java:12)
+Caused by: java.lang.NullPointerException
+	at java.net.URL.<init>(URL.java:524)
+	... 6 more
