@@ -48,7 +48,9 @@ public class PageDeal {
 			str = str.substring(6, str.length()-1);
 			str = pinJie(page,str);
 			if(str!=null){
-				newSet.add(str);
+				if(getHostName(str).equals(page.getHost())){
+					newSet.add(str);
+				}
 			}
 		}
 		return newSet;
@@ -63,6 +65,14 @@ public class PageDeal {
 				"(http|ftp|https):\\/\\/([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,6}");
 	}
 
+	/**
+	 * 根据页面的链接 获取到 hostName
+	 * @return
+	 */
+	protected String getHostName(String page){
+		return StringTool.getStringByReg(page, 
+				"(http|ftp|https):\\/\\/([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,6}");
+	}
 	
 	/**
 	 * 判断并处理href里的内容

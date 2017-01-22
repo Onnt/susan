@@ -16,7 +16,7 @@ public class Engine extends Thread{
 		while(true){
 			cycle();
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
