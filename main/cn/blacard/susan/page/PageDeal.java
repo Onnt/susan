@@ -117,18 +117,12 @@ public class PageDeal {
 		if(str.toCharArray()[0]=='/'){
 			return correcting(page.getHost()+str);
 		}
-		//判断str是否是相对路径
-//		if(str.startsWith("./")||str.startsWith("../")){
 		
-//		}
-		String path = page.getPageUrl();
-		if(!path.endsWith("/")){
-			path = path.substring(0, path.lastIndexOf("/")+1);
+		//判断str是否是相对路径
+		if(str.startsWith("./")||str.startsWith("../")){
+			return relativePathDeal(page,str);
 		}
-		str = path+str;
-		if(str.matches("http(s)?://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?.*")){
-			return correcting(str);
-		}
+		//其他未知  的 情况不进行处理，直接忽略
 		return null;
 	}
 	
@@ -137,9 +131,13 @@ public class PageDeal {
 	 * @param str 被校正的链接
 	 * @return 校正过的链接
 	 */
-	@Deprecated
 	private static String correcting(String str){
 		String resp = StringTool.getStringByReg(str, "http(s)?://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?");
 		return resp;
+	}
+	
+	private static String relativePathDeal(Page page,String str){
+		
+		return null;
 	}
 }
