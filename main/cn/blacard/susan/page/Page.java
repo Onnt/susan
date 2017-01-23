@@ -19,7 +19,7 @@ import cn.blacard.nymph.net.html.HtmlUnit;
  * @邮箱：blacard@163.com
  * @date 创建时间：2016年7月10日 下午7:03:58 
  */
-public class Page extends PageDeal{
+public class Page{
 	
 	/**
 	 * 页面的文本内容，文本内容主要是html
@@ -57,7 +57,7 @@ public class Page extends PageDeal{
 
 		//顺序不能乱，setUrls 需要  Host
 		//设置页面hostname
-		setHost(getHostName(this));
+		setHost(PageDeal.getHostName(this));
 		//获取页面中包含的所有url
 		setUrls();
 	}
@@ -126,10 +126,7 @@ public class Page extends PageDeal{
 	 */
 	private void setUrls(){
 		try {
-			urls.addAll(getHref(this));
-//			urls.addAll(getSrc(this));
-//			for(String str : urls)
-//				System.out.println(str);
+			urls = PageDeal.getHref(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

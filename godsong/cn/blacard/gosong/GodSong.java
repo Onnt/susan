@@ -19,18 +19,12 @@ public class GodSong {
 			));
 	
 	public static void main(String[] args) {
-		Engine engine = new Engine("http://shenqu.yy.com");
+		Engine engine = new Engine("http://bizhi.4493.com/");
 		engine.start();
 		
 //		getResult();
 	}
-//	
-//	public static void main(String[] args) {
-//		Page page = new Page("http://shenqu.yy.com/play/id_1081696283498561416.html");
-//		String html = page.getHtml();
-//		String deal =html.substring(html.indexOf("worksUrl:\"")+10, html.indexOf("\",worksName"));
-//		System.out.println(deal);
-//	}
+
 	
 	public static void getResult(){
 		Page page = new Page(UrlsDao.getAnalyUrl());

@@ -8,3 +8,9 @@ create table urls(
 	state varchar(100),
 	createTime timestamp default CURRENT_TIMESTAMP()
 );
+
+create table godsong(
+	song varchar(1000) primary key
+)
+
+select * from godsong

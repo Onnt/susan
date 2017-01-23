@@ -28,7 +28,7 @@ public class Engine extends Thread{
 		String url = UrlsDao.getExtractUrl();
 		if(url!=null){
 			try{
-				Page page = new Page(url);
+				Page page = new Page(url); 
 				Set<String> urls = page.getUrls();
 				for(String s : urls){
 					UrlsDao.insert(s);
