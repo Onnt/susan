@@ -60,9 +60,9 @@ public class PageDeal {
 
 			if(str!=null){
 				//对爬取得链接范围进行限制，只爬取指定hostname范围的链接
-				if(getHostName(str).equals(page.getHost())){
+//				if(getHostName(str).equals(page.getHost())){
 					newSet.add(str);
-				}
+//				}
 			}
 		}
 		return newSet;
@@ -118,12 +118,17 @@ public class PageDeal {
 			return correcting(page.getHost()+str);
 		}
 		
+		//如果是当前相对路径
+		if(str.startsWith("./")){
+			return relativeCurrPathDeal(page,str);
+		}
+		
 		//判断str是否是相对路径
-		if(str.startsWith("./")||str.startsWith("../")){
+		if(str.startsWith("../")){
 			return relativePathDeal(page,str);
 		}
-		//其他未知  的 情况不进行处理，直接忽略
-		return null;
+		//其他情况全部当作相对当前路径
+		return relativeCurrPathDeal(page,str);
 	}
 	
 	/**
@@ -136,8 +141,73 @@ public class PageDeal {
 		return resp;
 	}
 	
-	private static String relativePathDeal(Page page,String str){
+
+	private static String relativePathDeal(Page page,String str){ 
+		//将href链接分成前 和 后
+		String str_front = str.substring(0,str.lastIndexOf("../")+3);
+		String str_end = str.replace(str_front, "");
 		
-		return null;
+		//截取页面地址 后半部分(pageUrl_end)
+		String pageUrl_end = null;
+		String pageUrl = page.getPageUrl();
+		String pageUrl_replace = pageUrl.replace("//", "");
+		if(pageUrl_replace.contains("/")){
+			pageUrl_end = pageUrl_replace.substring(
+					pageUrl_replace.indexOf("/"), //startIndex 
+					pageUrl_replace.length() //endIndex
+					);
+			if(pageUrl_end.indexOf("/")==pageUrl_end.lastIndexOf("/")){
+				//页面链接只有一级深度（根目录），不能完成跳转（sample: http://baidu.com/ http://baidu.com/index.html）
+				return null;
+			}
+			if(pageUrl_end == null || pageUrl_end.equals("") ){
+				//页面链接只有一级深度（根目录），不能完成跳转（sample: http://baidu.com）
+				return null;
+			}
+		}else{
+			//页面链接只有一级深度（根目录），不能完成跳转（sample: http://baidu.com）
+			return null;
+		}
+		
+		String[] strs =  str_front.split("/");
+		String[] pageUrl_ends = pageUrl_end.split("/");
+		
+		int pageUrl_ends_length = pageUrl_ends.length-1;
+		if(!pageUrl_end.endsWith("/")) pageUrl_ends_length--;
+		if(strs.length > pageUrl_ends_length){
+			//href 大于 页面深度，不能完成跳转（sample: http://baidu.com/map.index href="../index.html"）
+			return null;
+		}
+		for(String s : strs){
+			if(s.equals("..")){
+				pageUrl_end = pageUrl_end.substring(0, pageUrl_end.lastIndexOf("/")); 
+				pageUrl_end = pageUrl_end.substring(0, pageUrl_end.lastIndexOf("/"))+"/"; 
+			}
+		}
+		
+		return page.getHost()+pageUrl_end+str_end;
+	}
+	/**
+	 * 
+	 * @author Blacard
+	 * @Create 2017年1月23日 下午4:31:29
+	 * @param page
+	 * @param str
+	 * @return
+	 */
+	private static String relativeCurrPathDeal(Page page,String str){
+		String pageUrl = page.getPageUrl();
+		String respStr = null;
+		//判断页面链接是否以“/”结尾
+		if(pageUrl.endsWith("/")){
+			str = str.replace("./", "");
+			respStr = pageUrl + str;
+		}else{
+			pageUrl = pageUrl.substring(0,pageUrl.lastIndexOf("/")+1);
+			str = str.replace("./", "");
+			respStr = pageUrl+str;
+		}
+		
+		return correcting(respStr);
 	}
 }

@@ -9,7 +9,7 @@ import cn.blacard.dbopera.para.DBConnectPara;
 public class UrlsDao {
 	private static QueryObject<UrlsEntity> query = new QueryObject<UrlsEntity>(new DBConnectPara(
 			DBStyle.MYSQL,
-			"127.0.0.1",
+			"blacard.cn",
 			"spider",
 			"root",
 			"yunbin"
