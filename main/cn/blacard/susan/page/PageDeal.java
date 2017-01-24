@@ -3,6 +3,8 @@ package cn.blacard.susan.page;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.blacard.nymph.String.StringTool;
 
@@ -25,7 +27,8 @@ public class PageDeal {
 	 * @throws IOException
 	 */
 	public static HashSet<String> getSrc(Page page) throws IOException{
-		List<String> list = StringTool.getStringsByReg(page.getHtml(), "src=([\"\"\'])[\\x21-\\x7ea-zA-Z0-9]{0,1000}([\"\"\'])");
+		String html = cn.blacard.nymph.StringTool.replaceBlank(page.getHtml());        
+		List<String> list = StringTool.getStringsByReg(html, "src=([\"\"\'])[\\x21-\\x7ea-zA-Z0-9]{0,1000}([\"\"\'])");
 		HashSet<String> newSet = new HashSet<String>();
 		for(String s : list){
 			s = s.substring(5, s.length()-1);
@@ -47,8 +50,9 @@ public class PageDeal {
 	 * @throws IOException
 	 */
 	public static HashSet<String> getHref(Page page) throws IOException{
+		String html = cn.blacard.nymph.StringTool.replaceBlank(page.getHtml());       
 		//正则表达式 匹配href
-		List<String> list = StringTool.getStringsByReg(page.getHtml(), "href=([\"\"\'])[\\x21-\\x7ea-zA-Z0-9]{0,1000}([\"\"\'])");
+		List<String> list = StringTool.getStringsByReg(html, "href=([\"\"\'])[\\x21-\\x7ea-zA-Z0-9]{0,1000}([\"\"\'])");
 		HashSet<String> newSet = new HashSet<String>();
 		
 		for(String str : list){
@@ -60,9 +64,9 @@ public class PageDeal {
 
 			if(str!=null){
 				//对爬取得链接范围进行限制，只爬取指定hostname范围的链接
-//				if(getHostName(str).equals(page.getHost())){
+				if(getHostName(str).equals(page.getHost())){
 					newSet.add(str);
-//				}
+				}
 			}
 		}
 		return newSet;
