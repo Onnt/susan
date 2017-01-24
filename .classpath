@@ -33,6 +33,6 @@
 	<classpathentry kind="lib" path="lib/JSON_JAR/json-lib-2.4-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/log4j/log4j-1.2.9.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/nymph.jar"/>
+	<classpathentry kind="lib" path="lib/nymph_V0.8.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

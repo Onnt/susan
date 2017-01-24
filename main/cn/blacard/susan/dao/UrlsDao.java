@@ -5,16 +5,13 @@ import java.util.List;
 import cn.blacard.dbopera.constant.DBStyle;
 import cn.blacard.dbopera.opera.QueryObject;
 import cn.blacard.dbopera.para.DBConnectPara;
+import cn.blacard.susan.Setting;
+import cn.blacard.susan.Susan;
 
 public class UrlsDao {
-	private static QueryObject<UrlsEntity> query = new QueryObject<UrlsEntity>(new DBConnectPara(
-			DBStyle.MYSQL,
-			"blacard.cn",
-			"spider",
-			"root",
-			"yunbin"
-			));
-	
+	static{
+		Susan.query.executeSQL("Create Table If Not Exists urls(url varchar(1000) primary key,extract varchar(10),analy varchar(10),state varchar(100),createTime timestamp default CURRENT_TIMESTAMP());", null);
+	}
 	/**
 	 * 插入一个无状态的url
 	 * @author Blacard
@@ -23,7 +20,7 @@ public class UrlsDao {
 	 */
 	public static void insert(String url){
 		if(!isExist(url)){
-			query.executeSQL("insert into urls(url) value(?)", new Object[]{url});
+			Susan.query.executeSQL("insert into urls(url) value(?)", new Object[]{url});
 		}
 	}
 	
@@ -34,7 +31,7 @@ public class UrlsDao {
 	 * @param url
 	 */
 	public static boolean isExist(String url){
-		List<UrlsEntity> respList = query.query("select * from urls where url = ?", new Object[]{url}, UrlsEntity.class);
+		List<UrlsEntity> respList = Susan.query.query("select * from urls where url = ?", new Object[]{url}, UrlsEntity.class);
 		if(respList !=null && respList.size() == 1){
 			return true;
 		}else{
@@ -50,7 +47,7 @@ public class UrlsDao {
 	 * @param url
 	 */
 	public static void updateExtract(String url){
-		query.executeSQL("update urls set extract = 'yes' where url =? ", new Object[]{url});
+		Susan.query.executeSQL("update urls set extract = 'yes' where url =? ", new Object[]{url});
 	}
 	
 	/**
@@ -60,7 +57,7 @@ public class UrlsDao {
 	 * @param url
 	 */
 	public static void updateAnaly(String url){
-		query.executeSQL("update urls set analy = 'yes' where url =? ", new Object[]{url});
+		Susan.query.executeSQL("update urls set analy = 'yes' where url =? ", new Object[]{url});
 	}
 	
 	public static void markError(String url,String state){

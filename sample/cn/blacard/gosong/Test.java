@@ -12,7 +12,7 @@ import cn.blacard.susan.page.Page;
 import cn.blacard.susan.page.PageDeal;
 
 public class Test {
-	public static void main(String[] args) throws IOException {
+	public static void main_(String[] args) throws IOException {
 
 		String analyUrl = UrlsDao.getAnalyUrl();
 		while(analyUrl!=null&&!analyUrl.equals("")){
@@ -30,6 +30,13 @@ public class Test {
 			}
 			analyUrl = UrlsDao.getAnalyUrl();
 		}
+	}
+	
+	public static void main(String[] args) throws IOException {
+
+		DownFromUrl down = new DownFromUrl();
+		String fileName ="hehe.mp4";
+		down.downFromUrl("http://godsong.bs2dl.yy.com/dmNmYTE3Njk0ZDJhNWUyZTE2NDg3ZjA1NTZlMmJhZWQ0MTU5NjAxMTYzOG1i", fileName, "D://");
 	}
 
 }
