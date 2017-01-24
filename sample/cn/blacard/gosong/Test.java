@@ -12,7 +12,7 @@ import cn.blacard.susan.page.Page;
 import cn.blacard.susan.page.PageDeal;
 
 public class Test {
-	public static void main_(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 
 		String analyUrl = UrlsDao.getAnalyUrl();
 		while(analyUrl!=null&&!analyUrl.equals("")){
@@ -32,7 +32,7 @@ public class Test {
 		}
 	}
 	
-	public static void main(String[] args) throws IOException {
+	public static void main_(String[] args) throws IOException {
 
 		DownFromUrl down = new DownFromUrl();
 		String fileName ="hehe.mp4";

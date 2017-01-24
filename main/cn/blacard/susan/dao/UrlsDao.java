@@ -3,8 +3,6 @@ package cn.blacard.susan.dao;
 import java.util.List;
 
 import cn.blacard.dbopera.constant.DBStyle;
-import cn.blacard.dbopera.opera.QueryObject;
-import cn.blacard.dbopera.para.DBConnectPara;
 import cn.blacard.susan.Setting;
 import cn.blacard.susan.Susan;
 
@@ -61,7 +59,7 @@ public class UrlsDao {
 	}
 	
 	public static void markError(String url,String state){
-		query.executeSQL("update urls set analy = 'yes',extract='yes',state=? where url =? ", new Object[]{state,url});
+		Susan.query.executeSQL("update urls set analy = 'yes',extract='yes',state=? where url =? ", new Object[]{state,url});
 	}
 	/**
 	 * 获取一个等待提取的url
@@ -70,7 +68,7 @@ public class UrlsDao {
 	 * @return
 	 */
 	public static String getExtractUrl(){
-		List<UrlsEntity> respList = query.query("select * from urls where extract is null limit 1", null,UrlsEntity.class);
+		List<UrlsEntity> respList = Susan.query.query("select * from urls where extract is null limit 1", null,UrlsEntity.class);
 		if(respList != null && respList.size() == 1){
 			String url = respList.get(0).getUrl();
 			updateExtract(url);
@@ -87,7 +85,7 @@ public class UrlsDao {
 	 * @return
 	 */
 	public static String getAnalyUrl(){
-		List<UrlsEntity> respList = query.query("select * from urls where analy is null limit 1", null,UrlsEntity.class);
+		List<UrlsEntity> respList = Susan.query.query("select * from urls where analy is null limit 1", null,UrlsEntity.class);
 		if(respList != null && respList.size() == 1){
 			String url = respList.get(0).getUrl();
 			updateAnaly(url);
