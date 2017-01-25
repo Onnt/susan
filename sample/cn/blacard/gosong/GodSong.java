@@ -1,17 +1,12 @@
 package cn.blacard.gosong;
 
 import java.util.Date;
-import java.util.List;
 
-import cn.blacard.dbopera.query.QueryOften;
-import cn.blacard.nymph.String.StringTool;
 import cn.blacard.nymph.date.NymTime;
 import cn.blacard.nymph.net.down.DownFromUrl;
 import cn.blacard.nymph.random.NumberRandom;
-import cn.blacard.susan.Setting;
 import cn.blacard.susan.Susan;
 import cn.blacard.susan.dao.UrlsDao;
-import cn.blacard.susan.dao.UrlsEntity;
 import cn.blacard.susan.page.Page;
 import cn.blacard.susan.thread.Engine;
 
@@ -19,11 +14,11 @@ public class GodSong {
 	
 	
 	public static void main(String[] args) {
-//		Engine engine = new Engine("http://shenqu.yy.com/");
-//		engine.start();
+		Engine engine = new Engine("http://shenqu.yy.com/");
+		engine.start();
 		
 		down();
-//		getResult();
+		getResult();
 	}
 
 	

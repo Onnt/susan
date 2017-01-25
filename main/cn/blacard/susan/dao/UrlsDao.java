@@ -2,8 +2,6 @@ package cn.blacard.susan.dao;
 
 import java.util.List;
 
-import cn.blacard.dbopera.constant.DBStyle;
-import cn.blacard.susan.Setting;
 import cn.blacard.susan.Susan;
 
 public class UrlsDao {
