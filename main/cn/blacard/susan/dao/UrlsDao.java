@@ -6,7 +6,7 @@ import cn.blacard.susan.Susan;
 
 public class UrlsDao {
 	static{
-		Susan.query.executeSQL("Create Table If Not Exists urls(url varchar(1000) primary key,extract varchar(10),analy varchar(10),state varchar(100),createTime timestamp default CURRENT_TIMESTAMP());", null);
+		Susan.query.executeSQL("Create Table If Not Exists urls(url varchar(2000),extract varchar(10),analy varchar(10),state varchar(100),createTime timestamp default CURRENT_TIMESTAMP());", null);
 	}
 	/**
 	 * 插入一个无状态的url

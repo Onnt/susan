@@ -9,6 +9,13 @@ public class Setting {
 	public static String db_user = "root";
 	public static String db_pass = "yunbin";
 	
+	public static void set(String address,String name,String user,String pass){
+		db_address = address;
+		db_name = name;
+		db_user = user;
+		db_pass = pass;
+	}
+	
 	public static DBConnectPara getDBConnectPara(){
 		return new DBConnectPara(
 				DBStyle.MYSQL,

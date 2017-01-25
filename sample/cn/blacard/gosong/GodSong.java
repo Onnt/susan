@@ -5,6 +5,7 @@ import java.util.Date;
 import cn.blacard.nymph.date.NymTime;
 import cn.blacard.nymph.net.down.DownFromUrl;
 import cn.blacard.nymph.random.NumberRandom;
+import cn.blacard.susan.Setting;
 import cn.blacard.susan.Susan;
 import cn.blacard.susan.dao.UrlsDao;
 import cn.blacard.susan.page.Page;
@@ -14,11 +15,19 @@ public class GodSong {
 	
 	
 	public static void main(String[] args) {
-		Engine engine = new Engine("http://shenqu.yy.com/");
-		engine.start();
 		
-		down();
-		getResult();
+//		Setting.set("blacard.cn", "godsong", "root", "yunbin");
+//		
+//		Engine engine = new Engine("http://shenqu.yy.com/");
+//		engine.start();
+		
+		Page  page = new Page("http://shenqu.yy.com/play/id_1112450586838851489.html");
+		String html  = page.getHtml();
+		System.out.println(page.getHtml());
+		String deal =html.substring(html.indexOf("var _songdata=")+14, html.indexOf("\"};"))+"\"}";
+		System.out.println(deal);
+//		down();
+//		getResult();
 	}
 
 	
