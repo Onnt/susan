@@ -18,14 +18,9 @@ public class GodSong {
 		
 //		Setting.set("blacard.cn", "godsong", "root", "yunbin");
 //		
-//		Engine engine = new Engine("http://shenqu.yy.com/");
-//		engine.start();
+		Engine engine = new Engine("http://shenqu.yy.com/");
+		engine.start();
 		
-		Page  page = new Page("http://shenqu.yy.com/play/id_1112450586838851489.html");
-		String html  = page.getHtml();
-		System.out.println(page.getHtml());
-		String deal =html.substring(html.indexOf("var _songdata=")+14, html.indexOf("\"};"))+"\"}";
-		System.out.println(deal);
 //		down();
 //		getResult();
 	}
