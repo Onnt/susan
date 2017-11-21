@@ -4,13 +4,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cn.virde.nymph.db.exception.NymDBException;
-import cn.virde.susan.DB;
+import cn.virde.nymph.db.mysql.MySql;
+import cn.virde.susan.Susan;
 import cn.virde.susan.pojo.UrlsEntity;
 
 public final class UrlsDao {
+	private static MySql<UrlsEntity> mysql = new MySql<UrlsEntity>(Susan.getConnInfo());
 	static{
 		try {
-			DB.mysql.executeSQL("Create Table If Not Exists urls(url varchar(2000),extract varchar(10),analy varchar(10),state varchar(100),createTime timestamp default CURRENT_TIMESTAMP());", null);
+			mysql.executeSQL("Create Table If Not Exists urls(url varchar(2000),extract varchar(10),analy varchar(10),state varchar(100),createTime timestamp default CURRENT_TIMESTAMP());", null);
 		} catch (NymDBException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -28,7 +30,7 @@ public final class UrlsDao {
 	public static void insert(String url){
 		try {
 			if(!isExist(url)){
-				DB.mysql.executeSQL("insert into urls(url) value(?)", new Object[]{url});
+				mysql.executeSQL("insert into urls(url) value(?)", new Object[]{url});
 			}
 		} catch (NymDBException e) {
 			e.printStackTrace();
@@ -46,7 +48,7 @@ public final class UrlsDao {
 	 * @throws NymDBException 
 	 */
 	public static boolean isExist(String url) throws NymDBException, SQLException{
-		List<UrlsEntity> respList = DB.mysql.query("select * from urls where url = ?", new Object[]{url}, UrlsEntity.class);
+		List<UrlsEntity> respList = mysql.query("select * from urls where url = ?", new Object[]{url}, UrlsEntity.class);
 		if(respList !=null && respList.size() == 1){
 			return true;
 		}else{
@@ -64,7 +66,7 @@ public final class UrlsDao {
 	 * @throws NymDBException 
 	 */
 	public static void updateExtract(String url) throws NymDBException, SQLException{
-		DB.mysql.executeSQL("update urls set extract = 'yes' where url =? ", new Object[]{url});
+		mysql.executeSQL("update urls set extract = 'yes' where url =? ", new Object[]{url});
 	}
 	
 	/**
@@ -76,7 +78,7 @@ public final class UrlsDao {
 	 * @throws NymDBException 
 	 */
 	public static void updateAnaly(String url) throws NymDBException, SQLException{
-		DB.mysql.executeSQL("update urls set analy = 'yes' where url =? ", new Object[]{url});
+		mysql.executeSQL("update urls set analy = 'yes' where url =? ", new Object[]{url});
 	}
 	public static void markError(String url){
 		try {
@@ -86,7 +88,7 @@ public final class UrlsDao {
 		}
 	}
 	public static void markState(String url,String state) throws NymDBException, SQLException{
-		DB.mysql.executeSQL("update urls set analy = 'yes',extract='yes',state=? where url =? ", new Object[]{state,url});
+		mysql.executeSQL("update urls set analy = 'yes',extract='yes',state=? where url =? ", new Object[]{state,url});
 	}
 	/**
 	 * 获取一个等待提取的url
@@ -99,7 +101,7 @@ public final class UrlsDao {
 	public static String getExtractUrl(){
 		List<UrlsEntity> respList;
 		try {
-			respList = DB.mysql.query("select * from urls where extract is null limit 1", null,UrlsEntity.class);
+			respList = mysql.query("select * from urls where extract is null limit 1", null,UrlsEntity.class);
 			if(respList != null && respList.size() == 1){
 				String url = respList.get(0).getUrl();
 				updateExtract(url);
@@ -136,7 +138,7 @@ public final class UrlsDao {
 	 * @throws NymDBException 
 	 */
 	public static String getAnalyUrl(String sql) throws NymDBException, SQLException {
-		List<UrlsEntity> respList = DB.mysql.query(sql, null,UrlsEntity.class);
+		List<UrlsEntity> respList = mysql.query(sql, null,UrlsEntity.class);
 		if(respList != null && respList.size() == 1){
 			String url = respList.get(0).getUrl();
 			updateAnaly(url);
