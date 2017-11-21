@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>cn.virde</groupId>
+    <artifactId>Virde-Parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>AmnesiaCity-susan</artifactId>
+  <packaging>jar</packaging>
+  
+  <name>AmnesiaCity-susan</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    
+<!-- https://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit -->
+<dependency>
+    <groupId>net.sourceforge.htmlunit</groupId>
+    <artifactId>htmlunit</artifactId>
+    <version>2.27</version>
+</dependency>
+
+<dependency>
+  <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+  <groupId>org.jsoup</groupId>
+  <artifactId>jsoup</artifactId>
+  <version>1.10.3</version>
+</dependency>
+
+		<dependency>
+			<groupId>cn.virde</groupId>
+			<artifactId>AmnesiaCity-nymph</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+    <dependency>
+        <groupId>org.mongodb</groupId>
+        <artifactId>mongodb-driver</artifactId>
+        <version>3.5.0</version>
+    </dependency>
+    
+  </dependencies>
+</project>
