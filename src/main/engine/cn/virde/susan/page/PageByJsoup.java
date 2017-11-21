@@ -16,8 +16,11 @@ import org.jsoup.select.Elements;
  */
 public class PageByJsoup extends Page{
 
-	public PageByJsoup(String url) {
+	private Document doc ;
+	
+	public PageByJsoup(String url) throws IOException {
 		super(url);
+		this.doc = Jsoup.connect(this.pageUrl).get();
 	}
 
 	@Override
@@ -32,7 +35,7 @@ public class PageByJsoup extends Page{
 	@Override
 	public Set<String> getHrefs(){
 		Set<String> hrefs = new HashSet<String>();
-        Document doc = getDoc();
+        
 		Elements eles = doc.select("a[href]");
 
 		for(Element ele : eles) {
@@ -40,26 +43,15 @@ public class PageByJsoup extends Page{
 		}
 		return hrefs;
 	}
-	
-	private Document getDoc() {
-		try {
-			return Jsoup.connect(this.pageUrl).get();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 	@Override
 	public Set<String> getSrcs() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getHtml() {
-		// TODO Auto-generated method stub
-		return null;
+		return doc.html();
 	}
 
 }
