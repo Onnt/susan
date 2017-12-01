@@ -147,4 +147,17 @@ public final class UrlsDao {
 			return null;
 		}
 	}
+
+	public static String getUrlBySql(String sql) throws NymDBException, SQLException {
+		List<UrlsEntity> respList = mysql.query(sql, null,UrlsEntity.class);
+		if(respList != null && respList.size() > 0){
+			return respList.get(0).getUrl();
+		}else{
+			return null;
+		}
+	}
+	
+	public static void updateCreTime(String url) throws NymDBException, SQLException {
+		mysql.executeSQL("update urls set createTime = CURRENT_TIMESTAMP() where url = ?", new Object[] {url});
+	}
 }
