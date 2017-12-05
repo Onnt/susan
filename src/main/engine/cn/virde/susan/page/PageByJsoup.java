@@ -39,7 +39,11 @@ public class PageByJsoup extends Page{
 		Elements eles = doc.select("a[href]");
 
 		for(Element ele : eles) {
-			hrefs.add(ele.attr("abs:href"));
+			String href = ele.attr("abs:href");
+			if(href.contains("#")) {
+				href = href.substring(0, href.indexOf("#"));
+			}
+			hrefs.add(href);
 		}
 		return hrefs;
 	}
