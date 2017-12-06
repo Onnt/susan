@@ -5,6 +5,7 @@ import java.util.List;
 
 import cn.virde.nymph.db.exception.NymDBException;
 import cn.virde.nymph.db.mysql.MySql;
+import cn.virde.nymph.util.Log;
 import cn.virde.susan.Susan;
 import cn.virde.susan.pojo.UrlsEntity;
 
@@ -107,7 +108,16 @@ public final class UrlsDao {
 				updateExtract(url);
 				return url;
 			}else{
-				return null;
+				Log.info("没有新的待抓取链接，准备获取旧的链接进行爬取");
+				respList = null ;
+				respList = mysql.query("select * from urls where state is null ORDER BY createTime limit 1", null, UrlsEntity.class);
+				if(respList != null && respList.size() == 1){
+					String url = respList.get(0).getUrl();
+					updateCreTime(url);
+					return url;
+				}else {
+					return null;					
+				}
 			}
 		} catch (NymDBException e) {
 			e.printStackTrace();
