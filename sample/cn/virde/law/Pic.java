@@ -13,14 +13,14 @@ import cn.virde.nymph.Nym;
 import cn.virde.nymph.db.exception.NymDBException;
 import cn.virde.susan.Susan;
 import cn.virde.susan.dao.UrlsDao;
-import cn.virde.susan.page.Page;
-import cn.virde.susan.page.PageByJsoup;
 import cn.virde.susan.thread.Engine;
 
 public class Pic {
 	public static void main(String[] args) throws IOException, NymDBException, SQLException {
-		Susan.setConnInfo("virde.cn", "db_chun", "blacard", "DengZhou_474183");
-//		spider();
+		Susan.setTableName("spider_lofter_virde");
+		Susan.setConnInfo("virde.cn", "db_chun", "blacard", "HaHaHaHa");
+		
+		spider();
 		
 		getDown();
 		
@@ -29,20 +29,20 @@ public class Pic {
 	}
 	private static void spider() {
 		
-		Engine engine = new Engine("http://darkicon.lofter.com");
+		Engine engine = new Engine("http://virde.lofter.com");
 		engine.start();
 	}
 	
 	private static void getDown() throws NymDBException, SQLException, IOException {
-		String analyUrl = UrlsDao.getAnalyUrl("select * from urls where analy is null and url like 'http://darkicon.lofter.com/post/%' limit 1;");
+		String analyUrl = UrlsDao.getAnalyUrl("select * from "+Susan.tableName+" where analy is null and url like 'http://virde.lofter.com/post/%' limit 1;");
 		while(analyUrl != null) {
-			analyUrl = UrlsDao.getAnalyUrl("select * from urls where analy is null and url like 'http://darkicon.lofter.com/post/%' limit 1;");
+			analyUrl = UrlsDao.getAnalyUrl("select * from "+Susan.tableName+" where analy is null and url like 'http://virde.lofter.com/post/%' limit 1;");
 			Document doc = Jsoup.connect(analyUrl).get();
-			Elements eles = doc.select("div.pic > a");
+			Elements eles = doc.select("div.img > a");
 			for(Element ele : eles) {
 				String picUrl = ele.attr("bigimgsrc");
 				if(picUrl!=null)
-					Nym.down.downFromUrl(picUrl, new Date().getTime()+".jpg", "F://lofter_dark");
+					Nym.down.downFromUrl(picUrl, new Date().getTime()+".jpg", "D://Lofter");
 			}
 		}
 	}

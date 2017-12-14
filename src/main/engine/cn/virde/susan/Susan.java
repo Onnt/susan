@@ -7,7 +7,11 @@ import cn.virde.nymph.db.ConnInfo;
 import cn.virde.susan.thread.Engine;
 
 public class Susan {
+	
+	// 数据库连接
 	private static ConnInfo connInfo ;
+	
+	public static String tableName = "urls";
 	
 	public static ConnInfo getConnInfo() {
 		return connInfo;
@@ -17,6 +21,9 @@ public class Susan {
 	}
 	public static void setConnInfo(String ip,String dbName,String user,String pass) {
 		Susan.connInfo = new ConnInfo().setIp(ip).setDbName(dbName).setUser(user).setPass(pass);
+	}
+	public static void setTableName(String tableName) {
+		Susan.tableName = tableName ;
 	}
 	public static void startEngine(String url) {
     	Engine engine = new Engine(url);

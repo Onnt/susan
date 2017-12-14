@@ -11,7 +11,7 @@ import cn.virde.susan.page.PageByJsoup;
 public class Engine extends Thread{
 	
 	private String host ;
-	
+	private int d = 0 ;
 	public Engine(String url) {
 		UrlsDao.insert(url);
 		this.host = PageDeal.getHostName(url);
@@ -20,6 +20,12 @@ public class Engine extends Thread{
 	@Override
 	public void run() {
 		while(true){
+			
+			if(d == 10) {
+				Log.info("连续十分钟没有新的待爬取链接。线程结束");
+				return ;
+			}
+			
 			int sleep = cycle();
 			try {
 				Thread.sleep(sleep);
@@ -36,8 +42,11 @@ public class Engine extends Thread{
 		
 		if(url==null) {
 			Log.info("Engine：获取到了空的链接，线程将在一分钟后再次获取待提取链接");
+			d++ ;
 			return 1000 * 60 ;
 		} 
+		
+		d = 0 ;
 				
 		// 只在这个网站中爬取
 		if(!url.startsWith(host)) return 0;
