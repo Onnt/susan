@@ -8,23 +8,30 @@ import cn.virde.susan.thread.Engine;
 
 public class Susan {
 	
-	// 数据库连接
-	private static ConnInfo connInfo ;
-	
-	public static String tableName = "urls";
+	private final static Option option = new Option();
 	
 	public static ConnInfo getConnInfo() {
-		return connInfo;
+		return option.getConnInfo();
 	}
 	public static void setConnInfo(ConnInfo connInfo) {
-		Susan.connInfo = connInfo;
+		option.setConnInfo(connInfo);
 	}
 	public static void setConnInfo(String ip,String dbName,String user,String pass) {
-		Susan.connInfo = new ConnInfo().setIp(ip).setDbName(dbName).setUser(user).setPass(pass);
+		option.setConnInfo(ip, dbName, user, pass);
 	}
 	public static void setTableName(String tableName) {
-		Susan.tableName = tableName ;
+		option.setTableName(tableName);
 	}
+	public static String getTbName() {
+		return option.getTableName();
+	}
+	
+	public final static String sql(String sql) {
+		if(sql==null || sql.trim().equals("")) return null;
+		if(!sql.contains("tableName")) return sql;
+		return sql.replace("tableName", option.getTableName());
+	}
+	
 	public static void startEngine(String url) {
     	Engine engine = new Engine(url);
     	engine.start();

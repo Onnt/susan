@@ -8,11 +8,11 @@ import cn.virde.nymph.db.mysql.MySql;
 import cn.virde.susan.Susan;
 import cn.virde.susan.pojo.UrlsEntity;
 
-public  class UrlsDao {
+public  class UrlsDao extends Susan{
 	private static MySql<UrlsEntity> mysql = new MySql<UrlsEntity>(Susan.getConnInfo());
 	static{
 		try {
-			mysql.executeSQL("Create Table If Not Exists "+Susan.tableName+"(url varchar(2000),extract varchar(10),analy varchar(10),state varchar(100),createTime timestamp default CURRENT_TIMESTAMP());", null);
+			mysql.executeSQL(sql("Create Table If Not Exists tableName(url varchar(2000),extract varchar(10),analy varchar(10),state varchar(100),createTime timestamp default CURRENT_TIMESTAMP());"), null);
 		} catch (NymDBException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -30,7 +30,7 @@ public  class UrlsDao {
 	public static void insert(String url){
 		try {
 			if(!isExist(url)){
-				mysql.executeSQL("insert into "+Susan.tableName+"(url) value(?)", new Object[]{url});
+				mysql.executeSQL(sql("insert into tableName(url) value(?)"), new Object[]{url});
 			}
 		} catch (NymDBException e) {
 			e.printStackTrace();
@@ -48,7 +48,7 @@ public  class UrlsDao {
 	 * @throws NymDBException 
 	 */
 	public static boolean isExist(String url) throws NymDBException, SQLException{
-		List<UrlsEntity> respList = mysql.query("select * from "+Susan.tableName+" where url = ?", new Object[]{url}, UrlsEntity.class);
+		List<UrlsEntity> respList = mysql.query(sql("select * from tableName where url = ?"), new Object[]{url}, UrlsEntity.class);
 		if(respList !=null && respList.size() == 1){
 			return true;
 		}else{
@@ -66,7 +66,7 @@ public  class UrlsDao {
 	 * @throws NymDBException 
 	 */
 	public static void updateExtract(String url) throws NymDBException, SQLException{
-		mysql.executeSQL("update "+Susan.tableName+" set extract = 'yes' where url =? ", new Object[]{url});
+		mysql.executeSQL(sql("update tableName set extract = 'yes' where url =? "), new Object[]{url});
 		updateCreTime(url);
 	}
 	
@@ -79,7 +79,7 @@ public  class UrlsDao {
 	 * @throws NymDBException 
 	 */
 	public static void updateAnaly(String url) throws NymDBException, SQLException{
-		mysql.executeSQL("update "+Susan.tableName+" set analy = 'yes' where url =? ", new Object[]{url});
+		mysql.executeSQL(sql("update tableName set analy = 'yes' where url =? "), new Object[]{url});
 		updateCreTime(url);
 	}
 	public static void markError(String url){
@@ -90,7 +90,7 @@ public  class UrlsDao {
 		}
 	}
 	public static void markState(String url,String state) throws NymDBException, SQLException{
-		mysql.executeSQL("update "+Susan.tableName+" set analy = 'yes',extract='yes',state=? where url =? ", new Object[]{state,url});
+		mysql.executeSQL(sql("update tableName set analy = 'yes',extract='yes',state=? where url =? "), new Object[]{state,url});
 	}
 	/**
 	 * 获取一个等待提取的url
@@ -103,7 +103,7 @@ public  class UrlsDao {
 	public static String getExtractUrl(){
 		String url = null ;
 		try {
-			List<UrlsEntity> respList = mysql.query("select * from "+Susan.tableName+" where extract is null or (TIMESTAMPDIFF(HOUR,createTime,NOW()) > 3 and state is null) limit 1", null,UrlsEntity.class);
+			List<UrlsEntity> respList = mysql.query(sql("select * from tableName where extract is null or (TIMESTAMPDIFF(HOUR,createTime,NOW()) > 3 and state is null) limit 1"), null,UrlsEntity.class);
 			if(respList != null && respList.size() == 1){
 				url = respList.get(0).getUrl();
 				updateExtract(url);
@@ -127,7 +127,7 @@ public  class UrlsDao {
 	 * @throws NymDBException 
 	 */
 	public static String getAnalyUrl() throws NymDBException, SQLException{
-		return getAnalyUrl("select * from "+Susan.tableName+" where analy is null limit 1");
+		return getAnalyUrl(sql("select * from tableName where analy is null limit 1"));
 	}
 	
 	/**
@@ -159,6 +159,6 @@ public  class UrlsDao {
 	}
 	
 	public static void updateCreTime(String url) throws NymDBException, SQLException {
-		mysql.executeSQL("update "+Susan.tableName+" set createTime = CURRENT_TIMESTAMP() where url = ?", new Object[] {url});
+		mysql.executeSQL(sql("update tableName set createTime = CURRENT_TIMESTAMP() where url = ?"), new Object[] {url});
 	}
 }
