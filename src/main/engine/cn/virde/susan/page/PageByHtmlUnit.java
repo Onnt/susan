@@ -22,13 +22,11 @@ public class PageByHtmlUnit extends Page{
 
 	@Override
 	public Set<String> getUrls() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Set<String> getHrefs() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
