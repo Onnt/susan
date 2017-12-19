@@ -22,7 +22,7 @@ public class Engine extends Thread{
 		while(true){
 			
 			if(d == 10) {
-				Log.info("连续十分钟没有新的待爬取链接。线程结束");
+				Log.alert("连续十分钟没有新的待爬取链接。线程结束");
 				return ;
 			}
 			
@@ -41,7 +41,7 @@ public class Engine extends Thread{
 		String url = UrlsDao.getExtractUrl();
 		
 		if(url==null) {
-			Log.info("Engine：获取到了空的链接，线程将在一分钟后再次获取待提取链接");
+			Log.alert("Engine：获取到了空的链接，线程将在一分钟后再次获取待提取链接");
 			d++ ;
 			return 1000 * 60 ;
 		} 
@@ -51,7 +51,7 @@ public class Engine extends Thread{
 		// 只在这个网站中爬取
 		if(!url.startsWith(host)) return 0;
 		
-		Log.info("正在爬取：" + url);
+		Log.alert("正在爬取：" + url);
 		try{
 			Page page = new PageByJsoup(url); 
 			Set<String> urls = page.getHrefs();

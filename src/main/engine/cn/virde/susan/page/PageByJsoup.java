@@ -41,9 +41,9 @@ public class PageByJsoup extends Page{
 		for(Element ele : eles) {
 			String href = ele.attr("abs:href");
 			// 发现有些网站#后面的字段是有作用的。所以需要具体思考下这个需不需要截取
-			if(href.contains("#")) {
-				href = href.substring(0, href.indexOf("#"));
-			}
+//			if(href.contains("#")) {
+//				href = href.substring(0, href.indexOf("#"));
+//			}
 			hrefs.add(href);
 		}
 		return hrefs;
