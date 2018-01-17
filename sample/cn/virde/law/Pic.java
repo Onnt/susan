@@ -34,9 +34,9 @@ public class Pic {
 	}
 	
 	private static void getDown() throws NymDBException, SQLException, IOException {
-		String analyUrl = UrlsDao.getAnalyUrl("select * from "+Susan.tableName+" where analy is null and url like 'http://virde.lofter.com/post/%' limit 1;");
+		String analyUrl = UrlsDao.getAnalyUrl("select * from "+Susan.getTbName()+" where analy is null and url like 'http://virde.lofter.com/post/%' limit 1;");
 		while(analyUrl != null) {
-			analyUrl = UrlsDao.getAnalyUrl("select * from "+Susan.tableName+" where analy is null and url like 'http://virde.lofter.com/post/%' limit 1;");
+			analyUrl = UrlsDao.getAnalyUrl("select * from "+Susan.getTbName()+" where analy is null and url like 'http://virde.lofter.com/post/%' limit 1;");
 			Document doc = Jsoup.connect(analyUrl).get();
 			Elements eles = doc.select("div.img > a");
 			for(Element ele : eles) {
