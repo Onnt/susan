@@ -25,7 +25,15 @@ public class Susan {
 	public static String getTbName() {
 		return option.getTableName();
 	}
+	public static void setProxy(String host, int port) {
+		option.setUseProxy(true);
+		option.setProxy_host(host);
+		option.setProxy_port(port);
+	}
 	
+	public static Option getOption() {
+		return option;
+	}
 	public final static String sql(String sql) {
 		if(sql==null || sql.trim().equals("")) return null;
 		if(!sql.contains("tableName")) return sql;

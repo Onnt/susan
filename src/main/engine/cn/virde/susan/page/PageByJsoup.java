@@ -9,6 +9,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import cn.virde.susan.Susan;
+
 /**
  * 
  * @author Virde
@@ -20,7 +22,11 @@ public class PageByJsoup extends Page{
 	
 	public PageByJsoup(String url) throws IOException {
 		super(url);
-		this.doc = Jsoup.connect(this.pageUrl).get();
+		if(Susan.getOption().isUseProxy()) {
+			this.doc = Jsoup.connect(this.pageUrl).proxy(Susan.getOption().getProxy_host(), Susan.getOption().getProxy_port()).get();
+		}else {
+			this.doc = Jsoup.connect(this.pageUrl).get();
+		}
 	}
 
 	@Override
