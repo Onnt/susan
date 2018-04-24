@@ -1,17 +1,34 @@
-package cn.virde.susan.page;
+package cn.virde.susan.page.impl;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-import cn.virde.susan.Susan;
+import cn.virde.susan.page.Page;
 
 public class PageByHtmlUnit extends Page{
 
+	public final static WebClient client = new WebClient(BrowserVersion.CHROME);
+	static {
+		//开启cookie管理
+        client.getCookieManager().setCookiesEnabled(true);
+        //开启js解析。对于变态网页，这个是必须的
+        client.getOptions().setJavaScriptEnabled(true);
+        //开启css解析。对于变态网页，这个是必须的。
+        client.getOptions().setCssEnabled(true);
+        //关闭报错抛出
+        client.getOptions().setThrowExceptionOnFailingStatusCode(false);
+        client.getOptions().setThrowExceptionOnScriptError(false);
+        //设置超时时长
+        client.getOptions().setTimeout(10000);
+	}
+	
 	public PageByHtmlUnit(String url) {
 		super(url);
 	}
@@ -43,7 +60,7 @@ public class PageByHtmlUnit extends Page{
 	        request.setAdditionalHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
 
 	        try {
-	        	HtmlPage page = Susan.client.getPage(request);	
+	        	HtmlPage page = client.getPage(request);	
 	        	return page;
 	        	
 			}catch(NumberFormatException e) {

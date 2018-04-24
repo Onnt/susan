@@ -1,4 +1,4 @@
-package cn.virde.susan.page;
+package cn.virde.susan.page.impl;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -9,7 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import cn.virde.susan.Susan;
+import cn.virde.susan.page.Page;
 
 /**
  * 
@@ -22,11 +22,11 @@ public class PageByJsoup extends Page{
 	
 	public PageByJsoup(String url) throws IOException {
 		super(url);
-		if(Susan.getOption().isUseProxy()) {
-			this.doc = Jsoup.connect(this.pageUrl).proxy(Susan.getOption().getProxy_host(), Susan.getOption().getProxy_port()).get();
-		}else {
+//		if(Susan.getOption().isUseProxy()) {
+//			this.doc = Jsoup.connect(this.pageUrl).proxy(Susan.getOption().getProxy_host(), Susan.getOption().getProxy_port()).get();
+//		}else {
 			this.doc = Jsoup.connect(this.pageUrl).get();
-		}
+//		}
 	}
 
 	@Override
