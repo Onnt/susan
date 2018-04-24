@@ -101,8 +101,8 @@ public class UrlManagerMysql implements UrlManager{
 	@Override
 	public List<Url> getExtractUrl(int limit) throws Exception {
 		List<Url> respList = null ;
-		// 5% 几率返回错误链接
-		boolean isSelectError = Nym.random.getBoolean(5);
+		// 1% 几率返回错误链接
+		boolean isSelectError = Nym.random.getBoolean(1);
 		if(isSelectError) {
 			respList = getErrorUrls(limit);
 		}
