@@ -34,7 +34,6 @@ public class Control {
 	}
 	
 	public void cycle() {
-
 		try {
 			List<Url> list = um.getExtractUrl(option.getLineNumber());
 			for(Url url : list) {
