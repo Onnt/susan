@@ -28,8 +28,12 @@ public class Control {
 			url.setUrl(option.getHost());
 			new UrlDeal(option,url).start();
 		}
+		// 这个地方是有问题的，这里的线程创建速度其实是和数据库的查询性能挂钩的，数据库出数据的速度有多快，线程的创建速度就有多快
 		while(true) {
+			long start = System.currentTimeMillis() ;
 			cycle();
+			long end = System.currentTimeMillis() ;
+			Log.alert("此次循环消耗时间："+(end - start)+ "ms");
 		}
 	}
 	

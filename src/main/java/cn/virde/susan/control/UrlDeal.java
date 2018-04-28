@@ -38,15 +38,15 @@ public class UrlDeal extends Thread{
 		try {
 			long start = System.currentTimeMillis() ;
 			if(!url.getUrl().contains(option.getRangeHost())) {
-				Log.info("该链接不在爬取范围内：From：" + url);
+				Log.info("该链接不在爬取范围内：From：" + url.getUrl());
 				return ;
 			}
 			getUrls();
 			saveUrls();
 			long end = System.currentTimeMillis() ;
-			Log.info("链接爬取耗时："+ (end - start)/1000 +"s，From：" + url.getUrl());
+			Log.info("链接爬取耗时："+ (end - start) +"ms，From：" + url.getUrl());
 		} catch (Exception e) {
-			Log.error("爬取链接时出现异常，From："+url, e);
+			Log.error("爬取链接时出现异常，From："+url.getUrl(), e);
 			try {
 				um.updateStateToError(url) ;
 			} catch (Exception e1) {
