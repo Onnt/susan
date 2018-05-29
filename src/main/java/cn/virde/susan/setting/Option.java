@@ -12,7 +12,9 @@ import cn.virde.nymph.util.Log;
 public class Option {
 	
 	private int lineNumber = 5 ;
-
+	// 程序休息时间，当设置休息时间时，lineNumber强制为1
+	private int sleepTime = 0 ;
+	
 	private String tableName = "urls";
 	private ConnInfo connInfo;
 	
@@ -105,6 +107,15 @@ public class Option {
 
 	public void setUseProxy(boolean isUseProxy) {
 		this.isUseProxy = isUseProxy;
+	}
+
+	public int getSleepTime() {
+		return sleepTime;
+	}
+
+	public void setSleepTime(int sleepTime) {
+		this.sleepTime = sleepTime;
+		this.lineNumber = 1 ;
 	}
 	
 }

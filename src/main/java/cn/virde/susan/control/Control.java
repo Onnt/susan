@@ -43,6 +43,10 @@ public class Control {
 			for(Url url : list) {
 				new UrlDeal(option,url).start();
 			}
+
+			if(option.getSleepTime() != 0 ) {
+				Thread.sleep(option.getSleepTime());
+			}
 		} catch (Exception e) {
 			Log.error("遇到严重错误，系统退出", e);
 		} 
