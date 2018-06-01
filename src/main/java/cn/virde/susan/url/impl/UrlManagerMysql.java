@@ -15,10 +15,10 @@ import cn.virde.susan.url.UrlManager;
  * @author Virde
  * @date 2018年4月20日 下午3:43:58
  */
-public class UrlManagerMysql implements UrlManager{
+public class UrlManagerMysql extends UrlManager{
 	
 	private Option option ;
-	private MySql<Url> mysql =  null ;
+	protected MySql<Url> mysql =  null ;
 	
 	public UrlManagerMysql(Option option) {
 		this.option = option ;
@@ -102,7 +102,7 @@ public class UrlManagerMysql implements UrlManager{
 	@Override
 	public int updateStateToAnaly(Url url) throws Exception {
 		url.setState(Url.STATE_ANALY);
-		return updateState(url);
+		return updateUrl(url);
 	}
 	
 	@Override
@@ -113,24 +113,6 @@ public class UrlManagerMysql implements UrlManager{
 		}
 		return line;
 	}
-	@Override
-	public int updateStateToError(Url url) throws Exception {
-		if(url.getState() < -100) {
-			url.setState(url.getState() - 1);
-		}
-		if(0 < url.getState() && url.getState() < 100) {
-			url.setState(-101);
-		}
-		if( 100 < url.getState()) {
-			url.setState(url.getState() * -1 -1);
-		}
-//		if(url.getState() < -110) {
-//			return deleteUrl(url.getUrl());
-//		}else {
-			return updateState(url);
-//		}
-	}
-
 	@Override
 	public int deleteUrl(String url) throws Exception {
 		return mysql.executeSQL(sql("delete from tableName where url = ?"), new Object[] {url});
@@ -167,7 +149,7 @@ public class UrlManagerMysql implements UrlManager{
 	}
 
 	@Override
-	public int updateState(Url url) throws Exception {
+	public int updateUrl(Url url) throws Exception {
 		return updateState(url.getUrl(), url.getState());
 	}
 

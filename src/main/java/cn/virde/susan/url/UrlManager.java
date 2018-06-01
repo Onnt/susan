@@ -9,14 +9,14 @@ import cn.virde.susan.bean.Url;
  * @author Virde
  * @date 2018年4月20日 下午2:46:49
  */
-public interface UrlManager {
+public abstract class UrlManager {
 	/**
 	 * 判断是否存在该Url 
 	 * @author Virde
 	 * @date 2018年4月20日 下午2:46:42
 	 * @param url
 	 */
-	public boolean isExistUrl(String url) throws Exception;
+	public abstract boolean isExistUrl(String url) throws Exception;
 	
 	/**
 	 * 增加一个Url
@@ -25,7 +25,7 @@ public interface UrlManager {
 	 * @param url
 	 * @return 
 	 */
-	public int insert(String url)  throws Exception;
+	public abstract int insert(String url)  throws Exception;
 	
 	/**
 	 * 一次插入多条Url
@@ -34,7 +34,13 @@ public interface UrlManager {
 	 * @param urls
 	 * @return 
 	 */
-	public int insert(List<String> urls)  throws Exception;
+	public int insert(List<String> urls)  throws Exception{
+		int line = 0 ;
+		for (String url : urls) {
+			line += insert(url) ;
+		}
+		return line ;
+	}
 	
 	/**
 	 * 更新url的状态
@@ -46,8 +52,8 @@ public interface UrlManager {
 	 * @param status
 	 * @return 
 	 */
-	public int updateState(String url ,int state)  throws Exception;
-	public int updateState(Url url)  throws Exception;
+	public abstract int updateState(String url ,int state)  throws Exception;
+	public abstract int updateUrl(Url url)  throws Exception;
 	
 	/**
 	 * 更新列表url的状态 
@@ -57,7 +63,13 @@ public interface UrlManager {
 	 * @param status
 	 * @return 
 	 */
-	public int updateState(List<Url> list)  throws Exception;
+	public int updateState(List<Url> list)  throws Exception{
+		int line = 0 ; 
+		for(Url url : list) {
+			line += updateState(url.getUrl(), url.getState());
+		}
+		return line ;
+	}
 	
 	/**
 	 * 获取Urls
@@ -66,7 +78,7 @@ public interface UrlManager {
 	 * @param status
 	 * @param limit
 	 */
-	public List<Url> getUrlsByStatusLimit(int status,int limit)  throws Exception;
+	public abstract List<Url> getUrlsByStatusLimit(int status,int limit)  throws Exception;
 	/**
 	 * 
 	 * @author Virde
@@ -75,7 +87,7 @@ public interface UrlManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Url> getErrorUrls(int limit) throws Exception ;
+	public abstract List<Url> getErrorUrls(int limit) throws Exception ;
 	/**
 	 * 获取待提取链接
 	 * 获取规则： <br>
@@ -87,7 +99,7 @@ public interface UrlManager {
 	 * @param limit
 	 * @return
 	 */
-	public List<Url> getExtractUrl(int limit) throws Exception ;
+	public abstract List<Url> getExtractUrl(int limit) throws Exception ;
 	
 	/**
 	 * 更新链接为已提取状态
@@ -111,7 +123,7 @@ public interface UrlManager {
 	 * @param limit
 	 * @return
 	 */
-	public List<Url> getAnalyUrl(int limit) throws Exception;
+	public abstract List<Url> getAnalyUrl(int limit) throws Exception;
 	/**
 	 * 更新链接为已解析状态
 	 * 更新规则：
@@ -121,8 +133,14 @@ public interface UrlManager {
 	 * @param url
 	 * @return
 	 */
-	public int updateStateToAnaly(Url url) throws Exception;
-	public int updateStateToAnaly(List<Url> url) throws Exception;
+	public abstract int updateStateToAnaly(Url url) throws Exception;
+	public int updateStateToAnaly(List<Url> urls) throws Exception{
+		int line = 0 ;
+		for(Url url : urls) {
+			line += updateStateToError(url);
+		}
+		return line;
+	}
 	
 	/**
 	 * 更新链接为错误状态
@@ -134,8 +152,25 @@ public interface UrlManager {
 	 * @param url
 	 * @return
 	 */
-	public int updateStateToError(Url url) throws Exception;
-	public int updateStateToError(List<Url> url) throws Exception;
+	public int updateStateToError(Url url) throws Exception{
+		if(url.getState() < -100) {
+			url.setState(url.getState() - 1);
+		}
+		if(0 < url.getState() && url.getState() < 100) {
+			url.setState(-101);
+		}
+		if( 100 < url.getState()) {
+			url.setState(url.getState() * -1 -1);
+		}
+		return updateUrl(url);
+	}
+	public int updateStateToError(List<Url> urls) throws Exception{
+		int line = 0 ;
+		for(Url url : urls) {
+			line += updateStateToError(url);
+		}
+		return line;
+	}
 	
 	/**
 	 * 删除链接
@@ -144,6 +179,12 @@ public interface UrlManager {
 	 * @param url
 	 * @return
 	 */
-	public int deleteUrl(String url) throws Exception ;
-	public int deleteUrl(List<Url> list) throws Exception ;
+	public abstract int deleteUrl(String url) throws Exception ;
+	public int deleteUrl(List<Url> list) throws Exception {
+		int line = 0 ;
+		for(Url url : list) {
+			line += deleteUrl(url.getUrl());
+		}
+		return line;
+	}
 }
