@@ -70,6 +70,78 @@ public abstract class UrlManager {
 		}
 		return line ;
 	}
+
+	/**
+	 * 更新链接为错误状态
+	 * 更新规则：
+	 * 1. 状态码 < 0，则 -1
+	 * 2. 状态吗 < -10 , 则进行删除  
+	 * @author Virde
+	 * @date 2018年4月20日 下午6:18:28
+	 * @param url
+	 * @return
+	 */
+	public int updateStateToError(Url url) throws Exception{
+		if(url.getState() < -100) {
+			url.setState(url.getState() - 1);
+		}
+		if(0 < url.getState() && url.getState() < 100) {
+			url.setState(-101);
+		}
+		if( 100 < url.getState()) {
+			url.setState(url.getState() * -1 -1);
+		}
+		return updateUrl(url);
+	}
+	public int updateStateToError(List<Url> urls) throws Exception{
+		int line = 0 ;
+		for(Url url : urls) {
+			line += updateStateToError(url);
+		}
+		return line;
+	}
+	/**
+	 * 更新链接为已解析状态
+	 * 更新规则：
+	 * 1 状态吗 +2 
+	 * @author Virde
+	 * @date 2018年4月20日 下午6:21:11
+	 * @param url
+	 * @return
+	 */
+	public abstract int updateStateToAnaly(Url url) throws Exception;
+	public int updateStateToAnaly(List<Url> urls) throws Exception{
+		int line = 0 ;
+		for(Url url : urls) {
+			line += updateStateToAnaly(url);
+		}
+		return line;
+	}
+	/**
+	 * 
+	 * @author Virde
+	 * @date 2018年6月4日 下午3:25:24
+	 * @param url
+	 * @return
+	 * @throws Exception
+	 */
+	public abstract int updateStateToExtract(Url url)  throws Exception;
+
+	/**
+	 * 
+	 * @author Virde
+	 * @date 2018年6月4日 下午3:25:28
+	 * @param urls
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateStateToExtract(List<Url> urls) throws Exception {
+		int line = 0 ;
+		for(Url url : urls) {
+			line += updateStateToExtract(url);
+		}
+		return line;
+	}
 	
 	/**
 	 * 获取Urls
@@ -124,54 +196,7 @@ public abstract class UrlManager {
 	 * @return
 	 */
 	public abstract List<Url> getAnalyUrl(int limit) throws Exception;
-	/**
-	 * 更新链接为已解析状态
-	 * 更新规则：
-	 * 1 状态吗 +2 
-	 * @author Virde
-	 * @date 2018年4月20日 下午6:21:11
-	 * @param url
-	 * @return
-	 */
-	public abstract int updateStateToAnaly(Url url) throws Exception;
-	public int updateStateToAnaly(List<Url> urls) throws Exception{
-		int line = 0 ;
-		for(Url url : urls) {
-			line += updateStateToError(url);
-		}
-		return line;
-	}
-	
-	/**
-	 * 更新链接为错误状态
-	 * 更新规则：
-	 * 1. 状态码 < 0，则 -1
-	 * 2. 状态吗 < -10 , 则进行删除  
-	 * @author Virde
-	 * @date 2018年4月20日 下午6:18:28
-	 * @param url
-	 * @return
-	 */
-	public int updateStateToError(Url url) throws Exception{
-		if(url.getState() < -100) {
-			url.setState(url.getState() - 1);
-		}
-		if(0 < url.getState() && url.getState() < 100) {
-			url.setState(-101);
-		}
-		if( 100 < url.getState()) {
-			url.setState(url.getState() * -1 -1);
-		}
-		return updateUrl(url);
-	}
-	public int updateStateToError(List<Url> urls) throws Exception{
-		int line = 0 ;
-		for(Url url : urls) {
-			line += updateStateToError(url);
-		}
-		return line;
-	}
-	
+
 	/**
 	 * 删除链接
 	 * @author Virde
