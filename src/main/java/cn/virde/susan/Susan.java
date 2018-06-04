@@ -5,7 +5,7 @@ import cn.virde.nymph.db.mysql.MySql;
 import cn.virde.nymph.util.Log;
 import cn.virde.susan.control.Control;
 import cn.virde.susan.setting.Option;
-import cn.virde.susan.url.impl.UrlManagerMysql;
+import cn.virde.susan.url.impl.SustainedMysqlUrlManager;
 
 /**
  * 
@@ -15,7 +15,7 @@ import cn.virde.susan.url.impl.UrlManagerMysql;
 public class Susan {
 
 	public Option option = new Option();
-	
+
 	public Susan() {
 		super();
 	}
@@ -67,7 +67,7 @@ public class Susan {
 	}
 	
 	private void createTableIfNotExists() {
-		UrlManagerMysql umm = new UrlManagerMysql(option);
+		SustainedMysqlUrlManager umm = new SustainedMysqlUrlManager(option);
 		umm.createTableIfNotExists();
 	}
 }

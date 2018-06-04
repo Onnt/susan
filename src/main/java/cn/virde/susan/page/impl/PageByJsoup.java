@@ -23,9 +23,9 @@ public class PageByJsoup extends Page{
 	public PageByJsoup(String url) throws IOException {
 		super(url);
 //		if(Susan.getOption().isUseProxy()) {
-			this.doc = Jsoup.connect(this.pageUrl).proxy("127.0.0.1", 1080).get();
+//			this.doc = Jsoup.connect(this.pageUrl).proxy("127.0.0.1", 1080).get();
 //		}else {
-//			this.doc = Jsoup.connect(this.pageUrl).get();
+			this.doc = Jsoup.connect(this.pageUrl).get();
 //		}
 	}
 

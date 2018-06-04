@@ -30,6 +30,9 @@ public class Url {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	public void setId(String id) {
+		this.id = Integer.parseInt(id);
+	}
 	public String getUrl() {
 		return url;
 	}
