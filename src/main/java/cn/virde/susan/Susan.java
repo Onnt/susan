@@ -16,6 +16,13 @@ public class Susan {
 
 	public Option option = new Option();
 	
+	public Susan() {
+		super();
+	}
+	public Susan(Option option) {
+		this.option = option ;
+	}
+	
 	// 启动引擎
 	public void start() {
 		Log.alert("程序启动，开始自检");

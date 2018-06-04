@@ -46,16 +46,18 @@ public class Option {
 		return rangeHost;
 	}
 
-	public void setRangeHost(String rangeHost) {
+	public Option setRangeHost(String rangeHost) {
 		this.rangeHost = rangeHost;
+		return this ;
 	}
 
 	public String getHost() {
 		return host;
 	}
 
-	public void setHost(String host) {
+	public Option setHost(String host) {
 		this.host = host;
+		return this ;
 	}
 	public String getTableName() {
 		return tableName;
@@ -65,12 +67,14 @@ public class Option {
 		return lineNumber;
 	}
 
-	public void setLineNumber(int lineNumber) {
+	public Option setLineNumber(int lineNumber) {
 		this.lineNumber = lineNumber;
+		return this ;
 	}
 
-	public void setTableName(String tableName) {
+	public Option setTableName(String tableName) {
 		this.tableName = tableName;
+		return this ;
 	}
 	
 
@@ -78,44 +82,50 @@ public class Option {
 		return proxy_host;
 	}
 
-	public void setProxy_host(String proxy_host) {
+	public Option setProxy_host(String proxy_host) {
 		this.proxy_host = proxy_host;
+		return this ;
 	}
 
 	public int getProxy_port() {
 		return proxy_port;
 	}
 
-	public void setProxy_port(int proxy_port) {
+	public Option setProxy_port(int proxy_port) {
 		this.proxy_port = proxy_port;
+		return this ;
 	}
 
 	public ConnInfo getConnInfo() {
 		return connInfo;
 	}
 	
-	public void setConnInfo(ConnInfo connInfo) {
+	public Option setConnInfo(ConnInfo connInfo) {
 		this.connInfo = connInfo;
+		return this ;
 	}
-	public void setConnInfo(String ip,String dbName,String user,String pass) {
+	public Option setConnInfo(String ip,String dbName,String user,String pass) {
 		this.connInfo = new ConnInfo().setIp(ip).setDbName(dbName).setUser(user).setPass(pass);
+		return this ;
 	}
 
 	public boolean isUseProxy() {
 		return isUseProxy;
 	}
 
-	public void setUseProxy(boolean isUseProxy) {
+	public Option setUseProxy(boolean isUseProxy) {
 		this.isUseProxy = isUseProxy;
+		return this ;
 	}
 
 	public int getSleepTime() {
 		return sleepTime;
 	}
 
-	public void setSleepTime(int sleepTime) {
+	public Option setSleepTime(int sleepTime) {
 		this.sleepTime = sleepTime;
 		this.lineNumber = 1 ;
+		return this ;
 	}
 	
 }
