@@ -159,8 +159,9 @@ public class Option {
 	public boolean isDev() {
 		return isDev;
 	}
-	public void setDev(boolean isDev) {
+	public Option setDev(boolean isDev) {
 		this.isDev = isDev;
+		return this ;
 	}
 	
 }

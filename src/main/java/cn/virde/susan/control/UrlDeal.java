@@ -65,7 +65,7 @@ public class UrlDeal extends Thread{
 		for(String url : list) {
 			line += saveUrl(url);
 		}
-		Log.info("爬取到 "+line+" / "+list.size()+" 条有效链接，From："+url.getUrl());
+		Log.alert("爬取到 "+line+" / "+list.size()+" 条有效链接，From："+url.getUrl());
 	}
 	
 	private int saveUrl(String url) {

@@ -14,7 +14,7 @@ import cn.virde.susan.url.impl.SustainedMysqlUrlManager;
  */
 public class Susan {
 
-	public Option option = new Option();
+	private Option option = new Option();
 
 	public Susan() {
 		super();
@@ -32,10 +32,10 @@ public class Susan {
 		Log.alert("引擎参数 验证通过");
 		
 		Log.alert("开始验证 数据库链接");
-		 validConnInfo();
-		 Log.alert("数据库链接 验证通过");
+		validConnInfo();
+		Log.alert("数据库链接 验证通过");
 		 
-		 Log.alert("创建数据表如果表不存在");
+		Log.alert("创建数据表如果表不存在");
 		createTableIfNotExists();
 		
 		Log.alert("启动程序完成，开始爬取链接");
@@ -70,4 +70,12 @@ public class Susan {
 		SustainedMysqlUrlManager umm = new SustainedMysqlUrlManager(option);
 		umm.createTableIfNotExists();
 	}
+	
+	public Option getOption() {
+		return option;
+	}
+	public void setOption(Option option) {
+		this.option = option;
+	}
+	
 }

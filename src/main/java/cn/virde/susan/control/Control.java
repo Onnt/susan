@@ -72,7 +72,7 @@ public class Control {
 			}
 		} catch (Exception e) {
 			Log.error("遇到严重错误，系统退出", e);
-		} 
+		}
 		return true ;
 	}
 }
