@@ -18,5 +18,5 @@ public interface UrlAnaly {
 	 * @param num
 	 * @return
 	 */
-	List<Url> getAnalyUrls(int num) ;
+	List<Url> getAnalyUrls(int num)  throws Exception;
 }

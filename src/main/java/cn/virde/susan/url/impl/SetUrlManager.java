@@ -12,7 +12,7 @@ import cn.virde.susan.url.UrlManager;
  * @author Virde
  * @date 2018年6月1日 下午2:50:34
  */
-public class UrlManagerSet extends UrlManager{
+public class SetUrlManager extends UrlManager{
 
 	public static volatile Set<Url> urls = new HashSet<Url>();
 	
@@ -113,5 +113,11 @@ public class UrlManagerSet extends UrlManager{
 		urls.add(new Url("23"));
 		
 		urls.forEach((e)->System.out.print(e.getState()));
+	}
+
+	@Override
+	public int updateStateToExtract(Url url) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

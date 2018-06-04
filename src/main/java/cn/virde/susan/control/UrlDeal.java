@@ -11,7 +11,6 @@ import cn.virde.susan.page.Page;
 import cn.virde.susan.page.impl.PageByJsoup;
 import cn.virde.susan.setting.Option;
 import cn.virde.susan.url.UrlManager;
-import cn.virde.susan.url.impl.UrlManagerMysql;
 
 /**
  * 这个类只做两件事情
@@ -29,7 +28,7 @@ public class UrlDeal extends Thread{
 
 	public UrlDeal(Option option,Url url) {
 		this.option = option ;
-		um = new UrlManagerMysql(option);
+		um = option.getUm();
 		this.url = url ;
 	}
 	
