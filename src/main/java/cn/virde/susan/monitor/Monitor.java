@@ -57,6 +57,8 @@ public class Monitor{
 
 	private static String getExtractSpendTimesText() {
 		int size = extractSpendTimes.size() ;
+		if(size == 0) return  "获取待爬取链接平均消耗时长：0 (0) \n" ;
+		
 		int total = 0 ;
 		for(int i : extractSpendTimes) {
 			total += i ;
@@ -67,6 +69,8 @@ public class Monitor{
 
 	private static String getUrlDealSpendTimesText() {
 		int size = urlDealSpendTimes.size() ;
+		if(size == 0) return  "单个链接平均处理时长：0 (0) \n" ;
+		
 		int total = 0 ;
 		for(int i : urlDealSpendTimes) {
 			total += i ;
