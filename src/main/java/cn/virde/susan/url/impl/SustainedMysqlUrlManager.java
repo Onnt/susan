@@ -18,6 +18,9 @@ import cn.virde.susan.url.MysqlUrlManager;
  */
 public class SustainedMysqlUrlManager extends MysqlUrlManager{
 	
+	private static final int STATE_NORMAL =  1 ;
+	private static final int STATE_ANALY = 2 ;
+	
 	public SustainedMysqlUrlManager(Option option) {
 		super(option);
 	}
@@ -37,14 +40,14 @@ public class SustainedMysqlUrlManager extends MysqlUrlManager{
 	
 	@Override
 	public List<Url> getAnalyUrl(int limit) throws Exception {
-		List<Url> respList = getUrlsByStatusLimit(Url.STATE_NORMAL, limit);
+		List<Url> respList = getUrlsByStatusLimit(STATE_NORMAL, limit);
 		updateStateToAnaly(respList);
 		return respList;
 	}
 
 	@Override
 	public int updateStateToAnaly(Url url) throws Exception {
-		url.setState(Url.STATE_ANALY);
+		url.setState(STATE_ANALY);
 		return updateUrl(url);
 	}
 	
@@ -69,7 +72,4 @@ public class SustainedMysqlUrlManager extends MysqlUrlManager{
 		}
 		return line;
 	}
-
-
-
 }

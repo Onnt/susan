@@ -1,8 +1,7 @@
 package cn.virde.susan.bean;
 
 public class Url {
-	public final static int STATE_NORMAL = 1;
-	public final static int STATE_ANALY  = 2 ;
+	
 	private Integer id ;
 	private String url ;
 	

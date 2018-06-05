@@ -1,11 +1,9 @@
 package cn.virde.susan.url.impl;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import cn.virde.nymph.db.exception.NymDBException;
 import cn.virde.susan.bean.Url;
 import cn.virde.susan.setting.Option;
 import cn.virde.susan.url.MysqlUrlManager;
