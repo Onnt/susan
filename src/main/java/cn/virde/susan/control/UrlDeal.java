@@ -7,6 +7,7 @@ import java.util.Set;
 
 import cn.virde.nymph.util.Log;
 import cn.virde.susan.bean.Url;
+import cn.virde.susan.monitor.Monitor;
 import cn.virde.susan.page.Page;
 import cn.virde.susan.page.impl.PageByJsoup;
 import cn.virde.susan.setting.Option;
@@ -34,16 +35,14 @@ public class UrlDeal extends Thread{
 	
 	@Override
 	public void run() {
+		long start = System.currentTimeMillis() ;
 		try {
-			long start = System.currentTimeMillis() ;
 			if(!url.getUrl().contains(option.getRangeHost())) {
 				Log.info("该链接不在爬取范围内：From：" + url.getUrl());
 				return ;
 			}
 			getUrls();
 			saveUrls();
-			long end = System.currentTimeMillis() ;
-			Log.info("链接爬取耗时："+ (end - start) +"ms，From：" + url.getUrl());
 		} catch (Exception e) {
 			Log.error("爬取链接时出现异常，From："+url.getUrl(), e);
 			try {
@@ -52,6 +51,8 @@ public class UrlDeal extends Thread{
 				Log.error("更新url状态为error时发生异常，From：" + url.getUrl(), e1);
 			}
 		}
+		long end = System.currentTimeMillis() ;
+		Monitor.recordUrlDealSpendTime(url, start, end);
 	}
 	public void getUrls() throws IOException{
 		Page page = new PageByJsoup(url.getUrl()) ;

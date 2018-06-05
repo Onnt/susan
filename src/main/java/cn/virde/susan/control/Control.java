@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.virde.nymph.util.Log;
 import cn.virde.susan.bean.Url;
+import cn.virde.susan.monitor.Monitor;
 import cn.virde.susan.setting.Option;
 import cn.virde.susan.url.UrlManager;
 
@@ -16,6 +17,7 @@ public class Control {
 	
 	private Option option ;
 	private UrlManager um;
+	
 	public Control(Option option) {
 		this.option = option ;
 		um = option.getUm() ;
@@ -38,15 +40,12 @@ public class Control {
 		}
 		// 这个地方是有问题的，这里的线程创建速度其实是和数据库的查询性能挂钩的，数据库出数据的速度有多快，线程的创建速度就有多快
 		while(true) {
-//			long start = System.currentTimeMillis() ;
 			boolean isContinue = cycle();
 			if(!isContinue) {
 				option.event.endFunc.done();
 				System.out.println("program is end");
 				break ;
 			}
-//			long end = System.currentTimeMillis() ;
-//			Log.alert("此次循环消耗时间："+(end - start)+ "ms");
 		}
 	}
 	
@@ -57,22 +56,34 @@ public class Control {
 	 * @return 返回false，停止循环
 	 */
 	public boolean cycle() {
-		try {
-			List<Url> list = um.getExtractUrl(option.getLineNumber());
-			
-			if(list == null ) {
-				return false ;
-			}
-			for(Url url : list) {
-				new UrlDeal(option,url).start();
-			}
+		List<Url> list = getExtractUrl() ;
+		
+		if(list == null ) {
+			return false ;
+		}
+		for(Url url : list) {
+			new UrlDeal(option,url).start();
+		}
 
-			if(option.getSleepTime() != 0 ) {
-				Thread.sleep(option.getSleepTime());
-			}
-		} catch (Exception e) {
-			Log.error("遇到严重错误，系统退出", e);
+		if(option.getSleepTime() != 0 ) {
+//			Thread.sleep(option.getSleepTime());
 		}
 		return true ;
 	}
+	
+	private List<Url> getExtractUrl(){		
+		try {
+			long start = System.currentTimeMillis() ;
+			List<Url> list = um.getExtractUrl(option.getLineNumber());
+			long end = System.currentTimeMillis() ;
+			Monitor.recordExtractSpendTime(start, end);
+			return list ;
+		} catch (Exception e) {
+			Log.error("控制器在查询待爬取链接时数据库可能出现异常，将在10秒后重新尝试查询", e);
+			try {Thread.sleep(10_000);} catch (InterruptedException e1) {e1.printStackTrace();}
+			return getExtractUrl() ;
+		}
+	}
+	
+
 }

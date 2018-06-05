@@ -4,6 +4,7 @@ import cn.virde.nymph.common.info.ValidInfo;
 import cn.virde.nymph.db.mysql.MySql;
 import cn.virde.nymph.util.Log;
 import cn.virde.susan.control.Control;
+import cn.virde.susan.monitor.Monitor;
 import cn.virde.susan.setting.Option;
 import cn.virde.susan.url.impl.SustainedMysqlUrlManager;
 
@@ -37,6 +38,9 @@ public class Susan {
 		 
 		Log.alert("创建数据表如果表不存在");
 		createTableIfNotExists();
+		
+		Log.alert("开启监控中心");
+		Monitor.start();
 		
 		Log.alert("启动程序完成，开始爬取链接");
 		Control ct = new Control(option);
