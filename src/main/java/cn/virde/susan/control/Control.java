@@ -1,85 +1,83 @@
+/**
+ * 
+ */
 package cn.virde.susan.control;
-
-import java.util.List;
 
 import cn.virde.nymph.util.Log;
 import cn.virde.susan.bean.Url;
-import cn.virde.susan.monitor.Monitor;
 import cn.virde.susan.setting.Option;
-import cn.virde.susan.url.UrlManager;
+import cn.virde.susan.url.impl.UrlPool;
 
 /**
- * 
  * @author Virde
- * @date 2018年4月23日 下午2:04:10
+ * @date 2018年6月20日 上午11:32:41
  */
 public class Control {
-	
+
 	private Option option ;
-	private UrlManager um;
+	private UrlPool urlPool ;
+	private UrlDealThreadPool threadPool ;
 	
 	public Control(Option option) {
 		this.option = option ;
-		um = option.getUm() ;
+		urlPool = new UrlPool(option);
+		threadPool = new UrlDealThreadPool(option.getLineNumber());
+//		Log.alert("Controller 创建成功");
 	}
 	
 	public void start() {
-		// 控制器开始之前，用户自己需要做一下什么事情
 		option.event.startFunc.done();
-		// 先处理Host地址
 		getAndDealHostUrlFirst();
-		// 这个地方是有问题的，这里的线程创建速度其实是和数据库的查询性能挂钩的，数据库出数据的速度有多快，线程的创建速度就有多快
 		while(true) {
-			boolean isContinue = cycle();
-			if(!isContinue) {
-				option.event.endFunc.done();
-				break ;
+			sleepByOption() ;
+			if(threadPool.canAddThread()) {
+//				Log.alert(" 正在添加新的UrlDeal线程 ");
+				Url url = getDealUrl() ;
+				if(url == null ) {
+					break;
+				}
+				threadPool.execute(new UrlDealThread(option,url));
+			}else {
+//				Log.alert(" 不能添加新的线程，将休息1秒钟 ");
+				sleep(1000);
 			}
-			sleepByOption();
 		}
+		option.event.endFunc.done();
 	}
-	
-	/**
-	 * 不间断的执行爬取任务
-	 * @author Virde
-	 * @date 2018年6月4日 下午4:07:58
-	 * @return 返回false，停止循环
-	 */
-	public boolean cycle() {
-		List<Url> list = getExtractUrl() ;
-		if(list == null ) return false ;
-		
-		for(Url url : list) {
-			new UrlDeal(option,url).start();
-		}
-		return true ;
-	}
-	
-	/**
-	 * 
-	 * @author Virde
-	 * @date 2018年6月5日 下午1:15:03
-	 * @return
-	 */
-	private List<Url> getExtractUrl(){		
+
+	private void sleep(int time) {
 		try {
-			long start = System.currentTimeMillis() ;
-			List<Url> list = um.getExtractUrl(option.getLineNumber());
-			long end = System.currentTimeMillis() ;
-			Monitor.recordExtractSpendTime(start, end);
-			return list ;
-		} catch (Exception e) {
-			Log.error("控制器在查询待爬取链接时数据库可能出现异常，将在10秒后重新尝试查询", e);
-			try {Thread.sleep(10_000);} catch (InterruptedException e1) {e1.printStackTrace();}
-			return getExtractUrl() ;
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
-	
+	private void sleepByOption() {
+		if(option.getSleepTime() != 0 ) {
+			sleep(option.getSleepTime());
+		}
+	}
+	public Url getDealUrl() {
+		Url url = urlPool.getFirstUrl() ;
+		if(url == null ) {
+			urlPool.initUrlPool() ;
+			url = urlPool.getFirstUrl() ;
+			Log.alert("链接池获取链接为空，正在重新初始化连接池并重新获取，待dealUrl ");
+			if(url == null) {
+				Log.alert("第二次从链接池获取链接，但仍然失败。将返回null，系统可能会停止运行 ");				
+				return null ;
+			}
+		}	
+
+//		Log.alert(" 成功获取链接 ");
+		return url ;	
+	}
+
 	private void getAndDealHostUrlFirst() {
 		if(option.getHost()!=null) {
 			Url url = new Url() ;
 			url.setUrl(option.getHost());
-			Thread hostUrlDealThread = new UrlDeal(option,url);
+			Thread hostUrlDealThread = new UrlDealThread(option,url);
 			hostUrlDealThread.start();
 			try {
 				hostUrlDealThread.join();
@@ -87,16 +85,7 @@ public class Control {
 				e.printStackTrace();
 			}		
 		}
-	}
-	private void sleepByOption() {
-		if(option.getSleepTime() != 0 ) {
-			try {
-				Thread.sleep(option.getSleepTime());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
 
+//		Log.alert("  start之前首先处理host域名，");
+	}
 }

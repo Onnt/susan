@@ -20,14 +20,14 @@ import cn.virde.susan.url.UrlManager;
  * @author Virde
  * @date 2018年4月23日 下午2:06:08
  */
-public class UrlDeal extends Thread{
+public class UrlDealThread extends Thread{
 	
 	private Url url ;
 	private List<String> list ;
 	private UrlManager um ;
 	private Option option ;
 
-	public UrlDeal(Option option,Url url) {
+	public UrlDealThread(Option option,Url url) {
 		this.option = option ;
 		um = option.getUm();
 		this.url = url ;
