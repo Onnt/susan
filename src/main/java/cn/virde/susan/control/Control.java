@@ -14,31 +14,34 @@ import cn.virde.susan.url.impl.UrlPool;
  */
 public class Control {
 
+	// 引擎配置
 	private Option option ;
+	// 链接池
 	private UrlPool urlPool ;
+	// 线程池
 	private UrlDealThreadPool threadPool ;
 	
 	public Control(Option option) {
 		this.option = option ;
 		urlPool = new UrlPool(option);
 		threadPool = new UrlDealThreadPool(option.getLineNumber());
-//		Log.alert("Controller 创建成功");
 	}
 	
+	// 轮循中心
 	public void start() {
 		option.event.startFunc.done();
 		getAndDealHostUrlFirst();
 		while(true) {
 			sleepByOption() ;
 			if(threadPool.canAddThread()) {
-//				Log.alert(" 正在添加新的UrlDeal线程 ");
+				Log.debug(" 正在添加新的UrlDeal线程 ");
 				Url url = getDealUrl() ;
 				if(url == null ) {
 					break;
 				}
 				threadPool.execute(new UrlDealThread(option,url));
 			}else {
-//				Log.alert(" 不能添加新的线程，将休息1秒钟 ");
+				Log.debug(" 不能添加新的线程，将休息1秒钟 ");
 				sleep(1000);
 			}
 		}
@@ -69,10 +72,15 @@ public class Control {
 			}
 		}	
 
-//		Log.alert(" 成功获取链接 ");
+		Log.debug("成功获取链接 ");
 		return url ;	
 	}
 
+	/**
+	 * 启动前首先对引擎设置额域名进行处理
+	 * @author Virde
+	 * @date 2018年6月21日 上午11:27:44
+	 */
 	private void getAndDealHostUrlFirst() {
 		if(option.getHost()!=null) {
 			Url url = new Url() ;
@@ -85,7 +93,5 @@ public class Control {
 				e.printStackTrace();
 			}		
 		}
-
-//		Log.alert("  start之前首先处理host域名，");
 	}
 }

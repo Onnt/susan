@@ -38,12 +38,12 @@ public class UrlPool {
 	public Url getFirstUrl() {
 		// 这个系数可以考虑改成自动化的
 		if(urlPool.size() < option.getLineNumber() * 9) {
-//			Log.alert("连接池里面的链接跟不上了…………");
+			Log.debug("连接池里面的链接跟不上了…………");
 			new Thread(()->{
 				urlPool.addAll(getExtractUrl(option.getLineNumber() * 5 ));				
 			}).start();
 		}else {
-//			Log.alert("连接池链接跟的上……");
+			Log.debug("连接池链接跟的上……");
 		}
 		if(urlPool.size() > 0 ) {
 			return urlPool.removeFirst() ;			
